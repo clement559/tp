@@ -1,4 +1,4 @@
-package seedu.duke;
+package seedu.duke.ui;
 
 import seedu.duke.task.Task;
 import seedu.duke.task.TaskList;
@@ -19,6 +19,9 @@ public class Ui {
         System.out.println();
     }
 
+    public void printGoodbyeMessage() {
+        System.out.print("See you again, bye!");
+    }
 
     public void printAddTaskNotification(Task task) {
         System.out.println("Got it, I have added the following task:");
@@ -39,6 +42,7 @@ public class Ui {
         System.out.println("Okay, I have edited the deadline for the following task:");
         System.out.println(taskItem);
     }
+
     public void printDeleteTaskNotification(TaskList taskList, int index) {
         System.out.println("Noted. I've removed this task:");
         Task task = taskList.getTask(index);
@@ -55,33 +59,31 @@ public class Ui {
         }
     }
 
-    public void printGoodbyeMessage() {
-        System.out.print("See you again, bye!");
+    public void printEmptyList(){
+        System.out.println("There are no tasks in the list.");
     }
 
-    public static void printErrorMessage() {
+
+    public void printErrorMessage() {
         System.out.println("Error encountered! Please type in a valid command!");
     }
 
-    public static void printDateTimeError() {
+    public void printDateTimeError() {
         System.out.println("The date provided must be of the following format: dd-MM-yyyy HH:MM.");
     }
+
     public static void printIndexError() {
         System.out.println("You provided an invalid index.");
     }
     public static void printParametersError() {
         System.out.println("You did not provide the correct parameters for this function.");
     }
-
-    public void printEmptyList(){
-        System.out.println("There are no tasks in the list.");
-    }
     public void printSavingErrorMessage() {
         System.out.println("Error encountered while saving!");
     }
 
     public void printFileNotFoundMessage() {
-        System.out.println("No valid save file was found. Creating a new list for you to use.");
+        System.out.println("No save file was found. Creating a new list and save file 'data.txt' for you to use.");
     }
 
     public void printLoadingErrorMessage() {

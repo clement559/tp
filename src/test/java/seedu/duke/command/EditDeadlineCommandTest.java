@@ -1,6 +1,6 @@
 package seedu.duke.command;
 import org.junit.jupiter.api.Test;
-import seedu.duke.Ui;
+import seedu.duke.ui.Ui;
 import seedu.duke.task.TaskList;
 
 import java.time.format.DateTimeParseException;
