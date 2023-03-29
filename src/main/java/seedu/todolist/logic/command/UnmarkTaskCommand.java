@@ -6,7 +6,9 @@ import seedu.todolist.logic.ParserUtil;
 import seedu.todolist.ui.Ui;
 import seedu.todolist.task.TaskList;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 
 //@@author RuiShengGit
 public class UnmarkTaskCommand extends Command{
@@ -21,7 +23,15 @@ public class UnmarkTaskCommand extends Command{
 
     @Override
     public void execute(TaskList taskList, Ui ui) throws InvalidIdException {
-        String taskString = taskList.setDone(index, false);
+        String taskString = taskList.deleteTask(index);
         ui.printUnmarkTaskMessage(taskString);
+    }
+
+    public void transferTask(TaskList uncompletedTaskList, TaskList completedTaskList, Ui ui) throws InvalidIdException {
+        String description = completedTaskList.getDescription(index);
+        LocalDateTime deadline = completedTaskList.getDeadline(index);
+        String email = completedTaskList.getEmail(index);
+        HashSet<String> tags = completedTaskList.getTags(index);
+        uncompletedTaskList.addTask(description, deadline, email, tags, 0);
     }
 }

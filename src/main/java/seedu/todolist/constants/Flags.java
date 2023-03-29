@@ -9,6 +9,7 @@ public enum Flags {
     // Command flags
     COMMAND_EXIT("exit", true),
     COMMAND_LIST("list", true),
+    COMMAND_HISTORY("history", true),
     COMMAND_PROGRESS("progress", true),
     COMMAND_CHECK("check", true),
     COMMAND_TAGS("tags", true),

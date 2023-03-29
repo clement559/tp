@@ -5,18 +5,7 @@ import seedu.todolist.exception.InvalidCommandException;
 import seedu.todolist.exception.InvalidFlagException;
 import seedu.todolist.exception.MissingArgumentException;
 import seedu.todolist.exception.ToDoListException;
-import seedu.todolist.logic.command.AddTaskCommand;
-import seedu.todolist.logic.command.CheckRepeatingTaskCommand;
-import seedu.todolist.logic.command.Command;
-import seedu.todolist.logic.command.DeleteTaskCommand;
-import seedu.todolist.logic.command.EditCommand;
-import seedu.todolist.logic.command.ExitCommand;
-import seedu.todolist.logic.command.GetEmailCommand;
-import seedu.todolist.logic.command.ListTasksCommand;
-import seedu.todolist.logic.command.MarkTaskCommand;
-import seedu.todolist.logic.command.ProgressBarCommand;
-import seedu.todolist.logic.command.TagCommand;
-import seedu.todolist.logic.command.UnmarkTaskCommand;
+import seedu.todolist.logic.command.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -98,6 +87,8 @@ public class Parser {
             return new ExitCommand();
         case COMMAND_LIST:
             return new ListTasksCommand();
+        case COMMAND_HISTORY:
+            return new ListHistoryCommand();
         case COMMAND_PROGRESS:
             return new ProgressBarCommand();
         case COMMAND_CHECK:

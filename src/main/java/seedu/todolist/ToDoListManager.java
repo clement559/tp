@@ -3,8 +3,7 @@ package seedu.todolist;
 import seedu.todolist.exception.FailedLoadException;
 import seedu.todolist.exception.ToDoListException;
 import seedu.todolist.logic.Parser;
-import seedu.todolist.logic.command.Command;
-import seedu.todolist.logic.command.ProgressBarCommand;
+import seedu.todolist.logic.command.*;
 import seedu.todolist.storage.Storage;
 import seedu.todolist.task.TaskList;
 import seedu.todolist.ui.Ui;
@@ -12,24 +11,36 @@ import seedu.todolist.ui.Ui;
 public class ToDoListManager {
     private boolean isRunning = true;
     private Parser parser = new Parser();
-    private Storage storage = new Storage(Storage.DEFAULT_SAVE_PATH);
-    private TaskList taskList = new TaskList();
+    private Storage dataStorage = new Storage(Storage.DEFAULT_UNCOMPLETED_TASK_SAVE_PATH);
+    private Storage historyStorage = new Storage(Storage.DEFAULT_COMPLETED_TASK_SAVE_PATH);
+    private TaskList uncompletedTaskList = new TaskList();
+    private TaskList completedTaskList = new TaskList();
     private Ui ui = new Ui();
 
     public ToDoListManager() {
         ui.printWelcomeMessage();
 
-        if (storage.isNewSave()) {
+        if (dataStorage.isNewSave() && historyStorage.isNewSave()) {
             ui.printNewSaveMessage();
             return;
         }
-        try {
-            taskList = storage.loadData();
-            taskList.checkRepeatingTasks();
-            ui.printLoadSaveMessage(taskList.size());
-            new ProgressBarCommand().execute(taskList, ui);
-        } catch (FailedLoadException e) {
-            ui.printError(e);
+        if (!dataStorage.isNewSave()) {
+            try {
+                uncompletedTaskList = dataStorage.loadData();
+                uncompletedTaskList.checkRepeatingTasks();
+                ui.printLoadSaveMessage(uncompletedTaskList.size());
+                new ProgressBarCommand().execute(uncompletedTaskList, ui);
+            } catch (FailedLoadException e) {
+                ui.printError(e);
+            }
+        }
+        if (!historyStorage.isNewSave()) {
+            try {
+                completedTaskList = historyStorage.loadData();
+                ui.printLoadSaveMessage(completedTaskList.size());
+            } catch (FailedLoadException e) {
+                ui.printError(e);
+            }
         }
     }
 
@@ -38,8 +49,20 @@ public class ToDoListManager {
             String inputCommand = ui.getUserInput();
             try {
                 Command command = parser.parseCommand(inputCommand);
-                command.execute(taskList, ui);
-                storage.saveData(taskList);
+                if (command instanceof MarkTaskCommand) {
+                    ((MarkTaskCommand) command).transferTask(uncompletedTaskList, completedTaskList, ui);
+                    command.execute(uncompletedTaskList, ui);
+                    dataStorage.saveData(uncompletedTaskList);
+                    historyStorage.saveData(completedTaskList);
+                } else if (command instanceof UnmarkTaskCommand) {
+                    ((UnmarkTaskCommand) command).transferTask(uncompletedTaskList, completedTaskList, ui);
+                    command.execute(completedTaskList, ui);
+                    dataStorage.saveData(uncompletedTaskList);
+                    historyStorage.saveData(completedTaskList);
+                } else {
+                    command.execute(uncompletedTaskList, ui);
+                    dataStorage.saveData(uncompletedTaskList);
+                }
                 isRunning = !command.shouldExit();
             } catch (ToDoListException e) {
                 ui.printError(e);

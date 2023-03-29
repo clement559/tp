@@ -15,7 +15,8 @@ import java.io.ObjectOutputStream;
  * A class for saving the task list as a text file and loading it.
  */
 public class Storage {
-    public static final String DEFAULT_SAVE_PATH = "./data.txt";
+    public static final String DEFAULT_UNCOMPLETED_TASK_SAVE_PATH = "./data.txt";
+    public static final String DEFAULT_COMPLETED_TASK_SAVE_PATH = "./history.txt";
     private boolean isNewSave;
     private File file;
 
