@@ -22,8 +22,8 @@ public class MarkTaskCommand extends Command{
         index = ParserUtil.parseId(args.get(Flags.COMMAND_MARK));
         assert index >= 0 : "Invalid index contained in variable";
     }
-
-    public void transferTask(TaskList uncompletedTaskList, TaskList completedTaskList, Ui ui) throws InvalidIdException {
+    //@@author clement559
+    public void transferTask(TaskList uncompletedTaskList, TaskList completedTaskList) throws InvalidIdException {
         String description = uncompletedTaskList.getDescription(index);
         LocalDateTime deadline = uncompletedTaskList.getDeadline(index);
         String email = uncompletedTaskList.getEmail(index);

@@ -26,8 +26,8 @@ public class UnmarkTaskCommand extends Command{
         String taskString = taskList.deleteTask(index);
         ui.printUnmarkTaskMessage(taskString);
     }
-
-    public void transferTask(TaskList uncompletedTaskList, TaskList completedTaskList, Ui ui) throws InvalidIdException {
+    //@@author clement559
+    public void transferTask(TaskList uncompletedTaskList, TaskList completedTaskList) throws InvalidIdException {
         String description = completedTaskList.getDescription(index);
         LocalDateTime deadline = completedTaskList.getDeadline(index);
         String email = completedTaskList.getEmail(index);

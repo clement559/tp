@@ -8,6 +8,8 @@ import seedu.todolist.storage.Storage;
 import seedu.todolist.task.TaskList;
 import seedu.todolist.ui.Ui;
 
+import java.util.List;
+
 public class ToDoListManager {
     private boolean isRunning = true;
     private Parser parser = new Parser();
@@ -50,15 +52,17 @@ public class ToDoListManager {
             try {
                 Command command = parser.parseCommand(inputCommand);
                 if (command instanceof MarkTaskCommand) {
-                    ((MarkTaskCommand) command).transferTask(uncompletedTaskList, completedTaskList, ui);
+                    ((MarkTaskCommand) command).transferTask(uncompletedTaskList, completedTaskList);
                     command.execute(uncompletedTaskList, ui);
                     dataStorage.saveData(uncompletedTaskList);
                     historyStorage.saveData(completedTaskList);
                 } else if (command instanceof UnmarkTaskCommand) {
-                    ((UnmarkTaskCommand) command).transferTask(uncompletedTaskList, completedTaskList, ui);
+                    ((UnmarkTaskCommand) command).transferTask(uncompletedTaskList, completedTaskList);
                     command.execute(completedTaskList, ui);
                     dataStorage.saveData(uncompletedTaskList);
                     historyStorage.saveData(completedTaskList);
+                } else if (command instanceof ListHistoryCommand) {
+                    command.execute(completedTaskList, ui);
                 } else {
                     command.execute(uncompletedTaskList, ui);
                     dataStorage.saveData(uncompletedTaskList);
